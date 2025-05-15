@@ -32,17 +32,20 @@ app.use(bodyParser.json());
 
 app.use(fileupload());
 
+app.get('/', (req, res) => {
+  res.send('¡Backend desplegado correctamente!');
+});
+
+routes(app);
+
 sequelize
   .sync({ force: false })
   .then(() => {
     console.log('Base de datos sincronizada correctamente');
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
   })
   .catch((error) => {
     console.error('Error al sincronizar la base de datos:', error);
   });
-
-routes(app);
-
-app.listen(PORT, async () => {
-  console.log(`Server is running on port ${PORT}`);
-});
