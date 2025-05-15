@@ -4,7 +4,7 @@ import {
   getArtistById,
   updateArtist,
   deleteArtist,
-} from '../controllers/Artist.controller.js';
+} from '../controllers/artist.controller.js';
 
 import { Router } from 'express';
 
