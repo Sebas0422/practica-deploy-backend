@@ -4,7 +4,7 @@ import {
   getMusicById,
   updateMusic,
   deleteMusic,
-} from '../controllers/Music.controller.js';
+} from '../controllers/music.controller.js';
 
 import { Router } from 'express';
 
