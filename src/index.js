@@ -12,6 +12,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT;
+if (!PORT) {
+  console.error('❌ process.env.PORT no está definido. Abortando.');
+  process.exit(1);
+}
 app.use(
   '/images',
   cors({
