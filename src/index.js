@@ -24,6 +24,7 @@ app.get('/users', async (req, res) => {
 (async () => {
   await sequelize.sync(); // Crea tablas si no existen
   const port = process.env.PORT || 3000;
+  console.log('Puerto asignado por Railway:', port);
   app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
   });
