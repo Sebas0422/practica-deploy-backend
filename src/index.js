@@ -1,49 +1,30 @@
-import 'dotenv/config';
-import express from 'express';
-import bodyParser from 'body-parser';
-import { sequelize } from './config/db.config.js';
-import routes from './routes/index.route.js';
-import cors from 'cors';
-import fileupload from 'express-fileupload';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const sequelize = require('./sequelize');
+const User = require('./models/User');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const app = express();
-const PORT = process.env.PORT;
-if (!PORT) {
-  console.error('❌ process.env.PORT no está definido. Abortando.');
-  process.exit(1);
-}
-app.use(
-  '/images',
-  cors({
-    origin: ['*'],
-    optionsSuccessStatus: 200,
-  }),
-  express.static(path.join(__dirname, '../public/images')),
-);
-app.use(cors({ origin: '*' }));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use(fileupload());
+app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('¡Backend desplegado correctamente!');
+  res.send('API funcionando ✅');
 });
 
-routes(app);
+app.post('/users', async (req, res) => {
+  const { name } = req.body;
+  const user = await User.create({ name });
+  res.json(user);
+});
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log('Base de datos sincronizada correctamente');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error al sincronizar la base de datos:', error);
+app.get('/users', async (req, res) => {
+  const users = await User.findAll();
+  res.json(users);
+});
+
+// Inicializar
+(async () => {
+  await sequelize.sync(); // Crea tablas si no existen
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
   });
+})();
