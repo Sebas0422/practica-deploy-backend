@@ -23,7 +23,7 @@ app.get('/users', async (req, res) => {
 // Inicializar
 (async () => {
   await sequelize.sync(); // Crea tablas si no existen
-  const port = process.env.PORT || 3000;
+  const port = 3000;
   console.log('Puerto en uso:', port);
   app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
